@@ -6,6 +6,81 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+router.get('/article', function(req, res, next) {
+  var rs = [];
+  
+  fs.readFile('./public/data/article.json', function(err, data) {
+    if(err){
+      rs = [];
+    } else {
+      rs = JSON.parse(data.toString());
+    }
+    res.send(rs);
+  })
+});
+
+router.get('/news', function(req, res, next) {
+  var rs = [];
+  
+  fs.readFile('./public/data/news.json', function(err, data) {
+    if(err){
+      rs = [];
+    } else {
+      rs = JSON.parse(data.toString());
+    }
+    res.send(rs);
+  })
+})
+
+
+
+router.get('/classification', function(req, res, next) {
+  var rs = [];
+  
+  fs.readFile('./public/data/classification.json', function(err, data) {
+    if(err){
+      rs = [];
+    } else {
+      rs = JSON.parse(data.toString());
+    }
+    res.send(rs);
+  })
+})
+
+router.post('/reg', function(req, res, next) {
+  var rs = [];
+  const reqData = {
+    "username" : req.body.username,
+    "password" : req.body.password
+  };
+  var result = {
+    status: 0,
+    info: "注册失败"
+  };
+
+  fs.readFile('./public/data/user.json', function(err, data) {
+    if(err) {
+      result.info = err;
+    }
+    rs = JSON.parse(data.toString());
+    rs.push(reqData);
+    fs.writeFile('./public/data/user.json', JSON.stringify(rs), function(err) {
+      if(err) {
+        result.info = err;
+      }
+      else {
+        result = {
+          status: 1,
+          info: "注册成功"
+        }
+      }
+      res.send(result);
+    })
+  })
+  
+
+});
+
 router.post('/login', function(req, res, next) {
   var rs = [];
   var result = {
@@ -34,7 +109,9 @@ router.post('/login', function(req, res, next) {
     }
     
     res.send(result);
-  })
+  });
+
+  
 
   
 })
