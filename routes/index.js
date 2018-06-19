@@ -32,8 +32,6 @@ router.get('/news', function(req, res, next) {
   })
 })
 
-
-
 router.get('/classification', function(req, res, next) {
   var rs = [];
   
@@ -45,6 +43,13 @@ router.get('/classification', function(req, res, next) {
     }
     res.send(rs);
   })
+})
+
+router.get('/search', function(req, res, next) {
+  var rs = [];
+  console.log(req.query);
+  rs = [{s: req.query.s}]
+  res.send(rs);
 })
 
 router.post('/reg', function(req, res, next) {
